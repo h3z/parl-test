@@ -1,0 +1,5 @@
+__pycache__
+.idea
+*.docx
+saved_models
+train_log
