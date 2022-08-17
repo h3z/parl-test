@@ -4,3 +4,4 @@ __pycache__
 *.docx
 saved_models
 train_log
+parl_baseline/model

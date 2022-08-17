@@ -1,8 +1,8 @@
 import numpy as np
 from parl.algorithms import SAC
 
-from parl_baseline.grid_agent import GridAgent
-from parl_baseline.grid_model import GridModel
+from grid_agent import GridAgent
+from grid_model import GridModel
 
 OBS_DIM = 819
 ACT_DIM = 54

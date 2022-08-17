@@ -219,7 +219,7 @@ if __name__ == "__main__":
     )
     parser.add_argument('--xparl_addr', type=str, default="localhost:8010")
     parser.add_argument('--actor_num', type=int, default=1)
-    parser.add_argument('--save_dir', type=str, default="./saved_models")
+    parser.add_argument('--save_dir', type=str, default="/home/yanhuize/saved_models")
     args = parser.parse_args()
 
     main()
