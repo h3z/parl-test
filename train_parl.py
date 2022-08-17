@@ -27,7 +27,7 @@ from parl_baseline.grid_agent import GridAgent
 from parl.algorithms import SAC
 from parl_baseline.env_wrapper import get_env
 
-WARMUP_STEPS = 1e3
+WARMUP_STEPS = 1e4
 MEMORY_SIZE = int(1e6)
 BATCH_SIZE = 256
 GAMMA = 0.99
@@ -110,6 +110,7 @@ class Learner(object):
         self.agent = GridAgent(algorithm)
 
         # self.agent.restore("./paddle_pretrain_model")
+        self.agent.restore("./saved_models/model-990071")
 
         self.rpm = ReplayMemory(
             max_size=MEMORY_SIZE, obs_dim=obs_dim, act_dim=action_dim)

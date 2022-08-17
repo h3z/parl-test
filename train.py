@@ -110,6 +110,7 @@ class Learner(object):
         self.agent = GridAgent(algorithm)
 
         # self.agent.restore("./paddle_pretrain_model")
+        self.agent.restore("./saved_models/model-990071")
 
         self.rpm = ReplayMemory(
             max_size=MEMORY_SIZE, obs_dim=obs_dim, act_dim=action_dim)
@@ -128,12 +129,13 @@ class Learner(object):
         #         'Observation/*',
         #         'Reward/*',
         #         'utilize/*',
+        #         'parl_baseline',
+        #         'example.so'
         #     ])
         # for _ in range(args.actor_num):
         #     th = threading.Thread(target=self.run_sampling)
         #     th.setDaemon(True)
         #     th.start()
-
         self.run_sampling()
 
     def run_sampling(self):
