@@ -20,7 +20,6 @@ import numpy as np
 import argparse
 import threading
 import time
-import parl
 from parl.utils import logger, tensorboard, ReplayMemory
 from parl_baseline.grid_model import GridModel
 from parl_baseline.grid_agent import GridAgent

@@ -1,5 +1,5 @@
-import copy
 from abc import abstractmethod
+
 
 class BaseAgent():
     def __init__(self, settings):

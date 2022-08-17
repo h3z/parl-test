@@ -1,5 +1,6 @@
 import numpy as np
 
+
 class Disconnect(object):
     def __init__(self, np_random, settings):
         self.np_random = np_random
@@ -22,9 +23,9 @@ class Disconnect(object):
 
     # Find lines meetings soft & hard overflow
     def overflow(self, rho):
-        hard_overflow_ids = np.where(rho > self.hard_bound)[0] 
+        hard_overflow_ids = np.where(rho > self.hard_bound)[0]
         soft_overflow_ids = np.intersect1d(np.where(rho > self.soft_bound),
-                                       np.where(rho <= self.hard_bound))
+                                           np.where(rho <= self.hard_bound))
         return hard_overflow_ids, soft_overflow_ids
 
     # Count soft overflow steps
@@ -32,7 +33,7 @@ class Disconnect(object):
         dis_ids = []
         for i in range(self.ln_num):
             if i in soft_overflow_ids:
-                count_soft_overflow_steps[i] += 1 
+                count_soft_overflow_steps[i] += 1
                 if count_soft_overflow_steps[i] >= self.max_steps_soft_overflow:
                     dis_ids.append(i)
             else:
@@ -57,12 +58,12 @@ class Disconnect(object):
         steps_to_reconnect_line = last_obs.steps_to_reconnect_line
         count_soft_overflow_steps = last_obs.count_soft_overflow_steps
         rho = np.array(last_obs.rho)
-    
+
         dis_line_id = self.random_cut()
         hard_overflow_ids, soft_overflow_ids = self.overflow(rho)
-        dis_softoverflow_ids, count_soft_overflow_steps =\
-         self.count_soft_steps(soft_overflow_ids, count_soft_overflow_steps)
-        
+        dis_softoverflow_ids, count_soft_overflow_steps = \
+            self.count_soft_steps(soft_overflow_ids, count_soft_overflow_steps)
+
         cut_line_ids = dis_line_id + dis_softoverflow_ids + hard_overflow_ids.tolist()
         cut_line_ids = list(set(cut_line_ids))
 

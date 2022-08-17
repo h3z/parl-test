@@ -1,6 +1,6 @@
 import numpy as np
 from gym import spaces
-import copy
+
 
 class ActionSpace(object):
     def __init__(self, settings):
@@ -77,7 +77,6 @@ class ActionSpace(object):
             low[idx] = -gen_p[idx]
             high[idx] = nextstep_renewable_gen_p_max[i] - gen_p[idx]
 
-
     def get_v_range(self, gen_v):
         low = np.zeros([self.gen_num])
         high = np.zeros([self.gen_num])
@@ -106,7 +105,7 @@ class ActionSpace(object):
         high = np.zeros([self.stoenergy_num])
 
         min_capa_adjust = [-total_stoenergy[i] for i in range(self.stoenergy_num)]
-        max_capa_adjust = [(self.stoenergy_capacity[i]-total_stoenergy[i])/self.chargerate_rho
+        max_capa_adjust = [(self.stoenergy_capacity[i] - total_stoenergy[i]) / self.chargerate_rho
                            for i in range(self.stoenergy_num)]
 
         for i in range(self.stoenergy_num):

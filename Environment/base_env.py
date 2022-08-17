@@ -1,16 +1,16 @@
+import copy
 import logging
+import warnings
+
+import example
+import numpy as np
 
 from Observation.observation import Observation
 from Reward.rewards import *
-from utilize.read_forecast_value import ForecastReader
-from utilize.line_cutting import Disconnect
 from utilize.action_space import ActionSpace
 from utilize.legal_action import *
-import example
-import copy
-import numpy as np
-import warnings
-import math
+from utilize.line_cutting import Disconnect
+from utilize.read_forecast_value import ForecastReader
 
 warnings.filterwarnings('ignore')
 
@@ -145,7 +145,6 @@ class Environment:
         if not legal_flag:
             self.done = True
             return self.return_res(fail_info)
-
 
         disc_name, self.steps_to_reconnect_line, \
         self.count_soft_overflow_steps = self.disconnect.get_disc_name(last_obs)

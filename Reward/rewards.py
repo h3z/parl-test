@@ -31,7 +31,6 @@ def balanced_gen_reward(obs, settings):
 
 
 def running_cost_reward(obs, last_obs, settings):
-
     # case 2：
     # r = 0.0
     # for i, name in enumerate(settings.gen_name_list):
@@ -50,7 +49,6 @@ def running_cost_reward(obs, last_obs, settings):
     #
     # r = -r / settings.gen_num
 
-
     r = 0.0
     for i, name in enumerate(settings.gen_name_list):
         idx = obs.unnameindex[name]
@@ -61,10 +59,9 @@ def running_cost_reward(obs, last_obs, settings):
         r -= a[i] * (obs.gen_p[idx]) ** 2 + b[i] * obs.gen_p[idx] + c[i]
         if obs.gen_status[idx] != last_obs.gen_status[idx] and idx in settings.thermal_ids:
             r -= d[i]
-    r = r/50000
+    r = r / 50000
     r = math.exp(r) - 1
     return r
-
 
 
 def gen_reactive_power_reward(obs, settings):
@@ -133,7 +130,7 @@ def grid_operation_reward(obs, act, settings):
     sum_adjust_adjld_p = sum(abs(i) for i in act['adjust_adjld_p'])
     sum_adjust_stoenergy_p = sum(abs(i) for i in act['adjust_stoenergy_p'])
     sum_ld_p = sum(obs.ld_p)
-    r = -(a * sum_gen_p + b * sum_adjust_adjld_p + c * sum_adjust_stoenergy_p)/sum_ld_p
+    r = -(a * sum_gen_p + b * sum_adjust_adjld_p + c * sum_adjust_stoenergy_p) / sum_ld_p
     return r
 
 

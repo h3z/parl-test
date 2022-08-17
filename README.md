@@ -9,12 +9,19 @@ python yml_creator.py --dataset_path $PWD/data
 ```
 
 # 单进程
+
 ```
 python train.py
 ```
 
 # 200 个进程
+
 ```
 xparl start --port 8010 --cpu_num 200
 python train_parl.py --actor_num 200
 ```
+
+# 其他问题
+
+* too many open file
+    * `ulimit -n 204800`

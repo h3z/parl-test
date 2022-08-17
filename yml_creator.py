@@ -6,9 +6,10 @@ main.yml的整体yaml文件。
 '''
 import os
 import re
-import yaml
-import pandas as pd
+
 import example
+import pandas as pd
+import yaml
 
 
 def _round(x):

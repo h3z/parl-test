@@ -12,10 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import parl
 import paddle
 import paddle.nn as nn
 import paddle.nn.functional as F
+import parl
 
 # clamp bounds for Std of action_log
 LOG_SIG_MAX = 2.0

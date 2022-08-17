@@ -3,6 +3,7 @@ import numpy as np
 from Agent.BaseAgent import BaseAgent
 from utilize.form_action import *
 
+
 class DoNothingAgent(BaseAgent):
 
     def __init__(self, settings):
@@ -15,4 +16,3 @@ class DoNothingAgent(BaseAgent):
 
     def act(self, obs, reward, done=False):
         return self.action
-

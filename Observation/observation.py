@@ -1,5 +1,5 @@
-import copy
 from utilize.settings import settings
+
 
 class Observation:
     def __init__(self, grid, timestep, action_space, steps_to_reconnect_line, count_soft_overflow_steps,
@@ -30,7 +30,7 @@ class Observation:
         self.grid_loss = grid.grid_loss
         self.bus_v = grid.bus_v
         self.bus_gen = grid.bus_gen
-        self.bus_load = grid.bus_load 
+        self.bus_load = grid.bus_load
         self.bus_branch = grid.bus_branch
         self.flag = grid.flag
         self.unnameindex = grid.un_nameindex
