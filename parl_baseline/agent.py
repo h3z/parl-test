@@ -26,7 +26,7 @@ class BaseAgent():
         pass
 
 
-class ParlAgent(BaseAgent):
+class Agent(BaseAgent):
 
     def __init__(self, settings, this_directory_path=None, seed=None):
         BaseAgent.__init__(self, settings)

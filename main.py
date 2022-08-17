@@ -1,7 +1,7 @@
 ﻿# -*- coding: UTF-8 -*-
 
 from Environment.base_env import Environment
-from parl_baseline.agent import ParlAgent
+from parl_baseline.agent import Agent
 from utilize.settings import settings
 
 
@@ -34,7 +34,7 @@ if __name__ == "__main__":
     max_timestep = 10  # 最大时间步数
     max_episode = 20  # 回合数
     # my_agent = RandomAgent(settings.gen_num)
-    my_agent = ParlAgent(settings, 'parl_baseline')
+    my_agent = Agent(settings, 'parl_baseline')
 
 
     # my_agent = DoNothingAgent(settings)
