@@ -109,7 +109,6 @@ class Learner(object):
         self.agent = GridAgent(algorithm)
 
         # self.agent.restore("./paddle_pretrain_model")
-        self.agent.restore("./saved_models/model-990071")
 
         self.rpm = ReplayMemory(
             max_size=MEMORY_SIZE, obs_dim=obs_dim, act_dim=action_dim)
