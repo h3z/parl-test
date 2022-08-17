@@ -92,10 +92,11 @@ class ActionSpace(object):
         low = np.zeros([self.adjld_num])
         high = np.zeros([self.adjld_num])
 
-        capa_adjust = [self.adjld_capacity[i] - total_adjld[i] for i in range(self.adjld_num)]
+        max_capa_adjust = [self.adjld_capacity[i] - total_adjld[i] for i in range(self.adjld_num)]
+        min_capa_adjust = [-self.adjld_capacity[i] - total_adjld[i] for i in range(self.adjld_num)]
         for i in range(self.adjld_num):
-            low[i] = max(-self.adjld_dnrate[i], -capa_adjust[i])
-            high[i] = min(self.adjld_uprate[i], capa_adjust[i])
+            low[i] = max(-self.adjld_dnrate[i], min_capa_adjust[i])
+            high[i] = min(self.adjld_uprate[i], max_capa_adjust[i])
         low = np.round(low, self.keep_decimal_digits)
         high = np.round(high, self.keep_decimal_digits)
         return low, high

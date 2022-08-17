@@ -1,9 +1,10 @@
 ﻿# -*- coding: UTF-8 -*-
+import numpy as np
 
+from Agent.DoNothingAgent import DoNothingAgent
 from Agent.RandomAgent import RandomAgent
 from Environment.base_env import Environment
 from utilize.settings import settings
-
 
 def run_task(my_agent):
     for episode in range(max_episode):
@@ -13,7 +14,7 @@ def run_task(my_agent):
         obs = env.reset()
         reward = 0.0
         done = False
-
+        
         # while not done:
         for timestep in range(max_timestep):
             print('------step: ', timestep)
@@ -28,7 +29,6 @@ def run_task(my_agent):
             # print(obs.line_status)
             if done:
                 break
-
 
 if __name__ == "__main__":
     max_timestep = 10  # 最大时间步数

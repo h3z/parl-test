@@ -36,9 +36,9 @@ renewable_ids: [0, 1, 2, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 19, 29, 43, 53]
 thermal_ids: [3, 15, 16, 18, 20, 21, 22, 23, 24, 25, 26, 27, 28, 30, 31, 32, 33,
     34, 35, 36, 37, 38, 39, 40, 41, 42, 44, 45, 46, 47, 48, 49, 50, 51, 52]
 balanced_id: 17
-gen_p_filepath: /tmp/pycharm_project_454/data/gen_p.csv
-gen_q_filepath: /tmp/pycharm_project_454/data/gen_q.csv
-max_renewable_gen_p_filepath: /tmp/pycharm_project_454/data/max_renewable_gen_p.csv
+gen_p_filepath: data/gen_p.csv
+gen_q_filepath: data/gen_q.csv
+max_renewable_gen_p_filepath: data/max_renewable_gen_p.csv
 ln_name: [branch0, branch1, branch2, branch3, branch4, branch5, branch6, branch8,
     branch9, branch10, branch11, branch12, branch13, branch14, branch15, branch16,
     branch17, branch18, branch19, branch20, branch21, branch22, branch23, branch24,
@@ -83,8 +83,8 @@ ln_thermal_limit: [313.92, 462.14, 889.01, 537.54, 583.39, 500.21, 340.29, 332.7
     673.05, 427.39, 434.37, 841.91, 414.47, 649.23, 735.1, 875.21, 411.04, 1641.13,
     1088.42, 432.49, 278.21, 273.69, 225.8, 365.48, 488.46, 655.39, 866.37, 522.05,
     650.22, 882.74, 768.44, 861.3, 1641.13, 435.0, 536.74]
-ld_p_filepath: /tmp/pycharm_project_454/data/load_p.csv
-ld_q_filepath: /tmp/pycharm_project_454/data/load_q.csv
+ld_p_filepath: /home/yuling/gridsim-20220719/data/load_p.csv
+ld_q_filepath: /home/yuling/gridsim-20220719/data/load_q.csv
 ld_name: [bus.1.ld, bus.2.ld, bus.3.ld, bus.4.ld, bus.6.ld, bus.7.ld, bus.11.ld,
     bus.12.ld, bus.13.ld, bus.14.ld, bus.15.ld, bus.16.ld, bus.17.ld, bus.18.ld, bus.19.ld,
     bus.20.ld, bus.21.ld, bus.22.ld, bus.23.ld, bus.27.ld, bus.28.ld, bus.29.ld, bus.31.ld,

@@ -29,6 +29,8 @@ class Observation:
         self.line_status = grid.line_status[0]
         self.grid_loss = grid.grid_loss
         self.bus_v = grid.bus_v
+        self.bus_gen = grid.bus_gen
+        self.bus_load = grid.bus_load 
         self.bus_branch = grid.bus_branch
         self.flag = grid.flag
         self.unnameindex = grid.un_nameindex

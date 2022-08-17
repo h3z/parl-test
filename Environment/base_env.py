@@ -137,7 +137,7 @@ class Environment:
         injection_adjld_p = [adjust_adjld_p[i] + last_obs.nextstep_ld_p[x] for i, x in enumerate(settings.adjld_ids)]
 
         adjust_stoenergy_p = act['adjust_stoenergy_p']
-        injection_stoenergy_p = [adjust_stoenergy_p[i] + last_obs.stoenergy_p[i] for i in range(settings.stoenergy_num)]
+        injection_stoenergy_p = [adjust_stoenergy_p[i] for i in range(settings.stoenergy_num)]
         injection_ld = injection_adjld_p + injection_stoenergy_p
 
         # 判断动作合法性

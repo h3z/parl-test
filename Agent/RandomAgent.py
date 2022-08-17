@@ -3,7 +3,6 @@ import numpy as np
 from Agent.BaseAgent import BaseAgent
 from utilize.form_action import *
 
-
 class RandomAgent(BaseAgent):
 
     def __init__(self, settings, seed=None):
@@ -12,11 +11,12 @@ class RandomAgent(BaseAgent):
         self.settings = settings
 
     def act(self, obs, reward=0.0, done=False):
+
         adjust_gen_p_action_space = obs.action_space['adjust_gen_p']
         adjust_gen_v_action_space = obs.action_space['adjust_gen_v']
         adjld_p_action_space = obs.action_space['adjust_adjld_p']
         stoenergy_p_action_space = obs.action_space['adjust_stoenergy_p']
-
+        
         if self.seed is not None:
             # To make sure sample same value
             adjust_gen_p_action_space.np_random.seed(self.seed)
