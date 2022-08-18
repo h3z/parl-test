@@ -27,3 +27,7 @@ python train_parl.py --actor_num 200
 
 * too many open file
     * `ulimit -n 204800`
+
+# 图构造
+* `test.py` 中有所有搜集的信息和构造的图。
+* 图的构造过程在 `parl_baseline/graph/graph.py` 里边可以修改边的方向。

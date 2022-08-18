@@ -1,5 +1,7 @@
 from functools import reduce
 
+import pgl
+
 bus_branch = {
     'bus-100100100': ['branch153_or', 'branch154_or', 'branch157_or', 'branch158_or', 'branch159_ex', 'branch162_ex',
                       'branch163_ex', 'branch166_ex'], 'bus-10100100': ['branch8_or'],
@@ -206,5 +208,45 @@ def get_dict():
     return id2name, name2id
 
 
-if __name__ == "__main__":
+def get_edges():
+    edges = []
+
+    # branch or -> ex
+    for i in range(194):
+        edges.append((f'branch{i}_or', f'branch{i}_ex'))
+
+    # bus -> branch_or
+    # branch_ex -> bus
+    for k, branches in bus_branch.items():
+        for b in branches:
+            if 'or' in b:
+                edges.append((k, b))
+            elif 'ex' in b:
+                edges.append((b, k))
+
+    # gen -> bus
+    for k, gens in bus_gen.items():
+        for b in gens:
+            if '' == b:
+                continue
+            edges.append((b, k))
+
+    # bus -> load
+    for k, loads in bus_load.items():
+        for b in loads:
+            if '' == b:
+                continue
+            edges.append((k, b))
+
+    return edges
+
+
+def build_graph():
+    edges = get_edges()
+
     id2name, name2id = get_dict()
+    idedges = []
+    for k, v in edges:
+        idedges.append((name2id[k], name2id[v]))
+    graph = pgl.Graph(idedges)
+    return graph, name2id, id2name
