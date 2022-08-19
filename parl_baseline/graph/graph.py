@@ -1,6 +1,10 @@
 from functools import reduce
 
 import pgl
+import numpy as np
+
+from parl_baseline.graph import branch_info, bus_info, load_info, gen_info
+from parl_baseline.graph.map_utils import feature_padding
 
 bus_branch = {
     'bus-100100100': ['branch153_or', 'branch154_or', 'branch157_or', 'branch158_or', 'branch159_ex', 'branch162_ex',
@@ -241,12 +245,57 @@ def get_edges():
     return edges
 
 
-def build_graph():
+def get_features(fea_dict, name):
+    r = {}
+    for k, v_dict in fea_dict['obs'].items():
+        if name in v_dict:
+            r[k] = float(v_dict[name])
+    return r
+
+
+def get_branch_features(fea_dict, name):
+    branchid, t = name.split('_')
+    t = ({'ex', 'or'} - {t}).pop()
+
+    r = {}
+    for k, v_dict in fea_dict['obs'].items():
+        if t in k:
+            continue
+        if branchid in v_dict:
+            r[k] = float(v_dict[branchid])
+    return r
+
+
+def build_graph(obs):
     edges = get_edges()
 
     id2name, name2id = get_dict()
     idedges = []
     for k, v in edges:
         idedges.append((name2id[k], name2id[v]))
-    graph = pgl.Graph(idedges)
-    return graph, name2id, id2name
+
+    # features
+    gen = gen_info.static_and_obs(obs)
+    branch = branch_info.static_and_obs(obs)
+    bus = bus_info.static_and_obs(obs)
+    load = load_info.static_and_obs(obs)
+
+    fe_arr = []
+    for name in id2name.values():
+        if name.startswith('bus-'):
+            fe = get_features(bus, name)
+        elif name.startswith('branch'):
+            fe = get_branch_features(branch, name)
+        elif name.startswith('bus.'):
+            if name.endswith('.gen'):
+                fe = get_features(gen, name)
+            elif name.endswith('.ld'):
+                fe = get_features(load, name)
+        fe = feature_padding(fe)
+
+        fe_arr.append(fe)
+
+    fe_arr = np.array(fe_arr)
+    graph = pgl.Graph(idedges, num_nodes=len(id2name), node_feat=fe_arr)
+
+    return graph
