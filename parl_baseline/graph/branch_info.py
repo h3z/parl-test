@@ -1,4 +1,4 @@
-from parl_baseline.graph.map_utils import  *
+from parl_baseline.graph.map_utils import *
 
 # TODO 这里需要确认一下为什么 bus_'branch'中提到的 'branch'有 194 个 'branch', 但是观测空间和静态配置文件中都只有 185 个
 
@@ -58,8 +58,10 @@ def static_and_obs(obs):
     from_obs = obs_map_to(obs,
                           ['a_ex', 'a_or', 'p_ex', 'p_or', 'q_ex', 'q_or', 'rho', 'steps_to_reconnect_line', 'v_ex',
                            'v_or', 'count_soft_overflow_steps', 'line_status'], obs_branch_name2id)
-    from_obs.update({
-        'ln_thermal_limit': map_to(ln_thermal_limit, obs_branch_name2id),
-        'white_list_random_disconnection': map_to(is_white_list_random_disconnection, obs_branch_name2id),
-    })
-    return from_obs
+    return {
+        'obs': from_obs,
+        'static': {
+            'ln_thermal_limit': map_to(ln_thermal_limit, obs_branch_name2id),
+            'white_list_random_disconnection': map_to(is_white_list_random_disconnection, obs_branch_name2id),
+        }
+    }

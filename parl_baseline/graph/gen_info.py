@@ -23,6 +23,7 @@ gen_p_d = [80, 80, 80, 880, 220, 80, 100, 80, 80, 200, 200, 80, 80, 100, 80, 100
            80, 80, 118, 200, 200, 100, 100, 200, 200, 100, 500, 500, 200, 90, 80, 80, 60,
            100, 100, 880, 100, 80, 880, 800, 60, 90, 200, 200, 220, 60, 100, 100, 60, 90,
            100, 100, 100, 90]
+# 5 新能源；1 火电；2 平衡机
 gen_type = [5, 5, 5, 1, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 1, 1, 2, 1, 5, 1, 1, 1, 1,
             1, 1, 1, 1, 1, 5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 5, 1, 1, 1, 1, 1, 1,
             1, 1, 1, 5]
@@ -91,19 +92,20 @@ def static_and_obs(obs):
                                 'steps_to_recover_gen', 'target_dispatch'], obs_gen_name2id)
     from_obs.update(from_obs_renewable)
 
-    from_obs.update({
-        # 下边是静态的
-        'gen_p_a': map_to(gen_p_a, obs_gen_name2id),
-        'gen_p_b': map_to(gen_p_b, obs_gen_name2id),
-        'gen_p_c': map_to(gen_p_c, obs_gen_name2id),
-        'gen_p_d': map_to(gen_p_d, obs_gen_name2id),
-        'gen_type': map_to(gen_type, obs_gen_name2id),
-        'gen_p_max': map_to(gen_p_max, obs_gen_name2id),
-        'gen_p_min': map_to(gen_p_min, obs_gen_name2id),
-        'gen_q_max': map_to(gen_q_max, obs_gen_name2id),
-        'gen_q_min': map_to(gen_q_min, obs_gen_name2id),
-        'gen_v_max': map_to(gen_v_max, obs_gen_name2id),
-        'gen_v_min': map_to(gen_v_min, obs_gen_name2id),
-    })
-
-    return from_obs
+    return {
+        'obs': from_obs,
+        'static': {
+            # 下边是静态的
+            'gen_p_a': map_to(gen_p_a, obs_gen_name2id),
+            'gen_p_b': map_to(gen_p_b, obs_gen_name2id),
+            'gen_p_c': map_to(gen_p_c, obs_gen_name2id),
+            'gen_p_d': map_to(gen_p_d, obs_gen_name2id),
+            'gen_type': map_to(gen_type, obs_gen_name2id),
+            'gen_p_max': map_to(gen_p_max, obs_gen_name2id),
+            'gen_p_min': map_to(gen_p_min, obs_gen_name2id),
+            'gen_q_max': map_to(gen_q_max, obs_gen_name2id),
+            'gen_q_min': map_to(gen_q_min, obs_gen_name2id),
+            'gen_v_max': map_to(gen_v_max, obs_gen_name2id),
+            'gen_v_min': map_to(gen_v_min, obs_gen_name2id),
+        }
+    }

@@ -49,19 +49,21 @@ def static_and_obs(obs):
 
     from_obs.update(ad_ld_from_obs)
     from_obs.update(sto_energy_from_obs)
-    from_obs.update({
-        'ld_type': map_to(ld_type, obs_load_name2id),
-        'adjld_a': map_to(adjld_a, obs_ad_load_name2id),
-        'adjld_b': map_to(adjld_b, obs_ad_load_name2id),
-        'adjld_c': map_to(adjld_c, obs_ad_load_name2id),
-        'adjld_capacity': map_to(adjld_capacity, obs_ad_load_name2id),
-        'adjld_uprate': map_to(adjld_uprate, obs_ad_load_name2id),
-        'adjld_dnrate': map_to(adjld_dnrate, obs_ad_load_name2id),
-        'stoenergy_k': map_to(stoenergy_k, obs_sto_energy_load_name2id),
-        'stoenergy_b': map_to(stoenergy_b, obs_sto_energy_load_name2id),
-        'stoenergy_name': map_to(stoenergy_name, obs_sto_energy_load_name2id),
-        'stoenergy_capacity': map_to(stoenergy_capacity, obs_sto_energy_load_name2id),
-        'stoenergy_chargerate_max': map_to(stoenergy_chargerate_max, obs_sto_energy_load_name2id),
-        'stoenergy_dischargerate_max': map_to(stoenergy_dischargerate_max, obs_sto_energy_load_name2id),
-    })
-    return from_obs
+    return {
+        'obs': from_obs,
+        'static': {
+            'ld_type': map_to(ld_type, obs_load_name2id),
+            'adjld_a': map_to(adjld_a, obs_ad_load_name2id),
+            'adjld_b': map_to(adjld_b, obs_ad_load_name2id),
+            'adjld_c': map_to(adjld_c, obs_ad_load_name2id),
+            'adjld_capacity': map_to(adjld_capacity, obs_ad_load_name2id),
+            'adjld_uprate': map_to(adjld_uprate, obs_ad_load_name2id),
+            'adjld_dnrate': map_to(adjld_dnrate, obs_ad_load_name2id),
+            'stoenergy_k': map_to(stoenergy_k, obs_sto_energy_load_name2id),
+            'stoenergy_b': map_to(stoenergy_b, obs_sto_energy_load_name2id),
+            'stoenergy_name': map_to(stoenergy_name, obs_sto_energy_load_name2id),
+            'stoenergy_capacity': map_to(stoenergy_capacity, obs_sto_energy_load_name2id),
+            'stoenergy_chargerate_max': map_to(stoenergy_chargerate_max, obs_sto_energy_load_name2id),
+            'stoenergy_dischargerate_max': map_to(stoenergy_dischargerate_max, obs_sto_energy_load_name2id),
+        }
+    }

@@ -50,9 +50,10 @@ def static_and_obs(obs):
     assert (len(bus_name) == 126)
     from_obs = obs_map_to(obs, ['bus_v'], obs_bus_name2id)
 
-    from_obs.update({
-        'bus_v_max': map_to(bus_v_max, obs_bus_name2id),
-        'bus_v_min': map_to(bus_v_min, obs_bus_name2id),
-    })
-
-    return from_obs
+    return {
+        'obs': from_obs,
+        'static': {
+            'bus_v_max': map_to(bus_v_max, obs_bus_name2id),
+            'bus_v_min': map_to(bus_v_min, obs_bus_name2id),
+        }
+    }
