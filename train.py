@@ -21,33 +21,21 @@ import argparse
 import threading
 import time
 from parl.utils import logger, tensorboard, ReplayMemory
-from parl_baseline.grid_model import GridModel
 from parl_baseline.grid_agent import GridAgent
 from parl.algorithms import SAC
 from parl_baseline.env_wrapper import get_env
-
-WARMUP_STEPS = 1e4
-MEMORY_SIZE = int(1e6)
-BATCH_SIZE = 256
-GAMMA = 0.99
-TAU = 0.005
-ACTOR_LR = 3e-4
-CRITIC_LR = 3e-4
-OBS_DIM = 819
-ACT_DIM = 54
-
+from parl_baseline.models.pgl_gcn import GCNModel
+from config import *
 
 # @parl.remote_class
 class Actor(object):
     def __init__(self, args):
         self.env = get_env()
-
-        obs_dim = OBS_DIM
-        action_dim = ACT_DIM
-        self.action_dim = action_dim
-
+        self.action_dim = ACT_DIM
+        
         # Initialize model, algorithm, agent, replay_memory
-        model = GridModel(obs_dim, action_dim)
+        # model = GridModel(obs_dim, action_dim)
+        model = GCNModel(NODE_FEA_LEN*NODE_NUM, ACT_DIM)
         algorithm = SAC(
             model,
             gamma=GAMMA,
@@ -98,7 +86,9 @@ class Learner(object):
         action_dim = ACT_DIM
 
         # Initialize model, algorithm, agent, replay_memory
-        model = GridModel(obs_dim, action_dim)
+        # model = GridModel(obs_dim, action_dim)
+        model = GCNModel(NODE_FEA_LEN*NODE_NUM, ACT_DIM)
+
         algorithm = SAC(
             model,
             gamma=GAMMA,
@@ -111,7 +101,7 @@ class Learner(object):
         # self.agent.restore("./paddle_pretrain_model")
 
         self.rpm = ReplayMemory(
-            max_size=MEMORY_SIZE, obs_dim=obs_dim, act_dim=action_dim)
+            max_size=MEMORY_SIZE, obs_dim=NODE_NUM * NODE_FEA_LEN, act_dim=action_dim)
 
         self.total_steps = 0
         self.total_MDP_steps = 0

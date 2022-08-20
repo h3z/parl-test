@@ -7,3 +7,4 @@ train_log
 parl_baseline/model
 submission/model
 data
+.vscode

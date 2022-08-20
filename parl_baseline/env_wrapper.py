@@ -6,8 +6,9 @@ from parl.utils import logger
 from Environment.base_env import Environment
 from utilize.form_action import *
 from utilize.settings import settings
+from parl_baseline.graph.graph import Graph
 
-
+graph = Graph()
 class MaxTimestepWrapper(gym.Wrapper):
     def __init__(self, env, max_timestep=288):
         logger.info("[env type]:{}".format(type(env)))
@@ -70,7 +71,8 @@ class ObsTransformerWrapper(gym.Wrapper):
             rho.tolist(), next_load, action_space_low, action_space_high
         ])
 
-        return features
+        # return {'ori_features': features, 'obs': obs}
+        return graph.get_features(obs).reshape(-1)
 
     def step(self, action, **kwargs):
         self.raw_obs, reward, done, info = self.env.step(action, **kwargs)

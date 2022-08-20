@@ -1,8 +1,8 @@
 from functools import reduce
 
-import pgl
 import numpy as np
-
+import pgl
+import paddle
 from parl_baseline.graph import branch_info, bus_info, load_info, gen_info
 from parl_baseline.graph.map_utils import feature_padding
 
@@ -266,36 +266,37 @@ def get_branch_features(fea_dict, name):
     return r
 
 
-def build_graph(obs):
-    edges = get_edges()
+class Graph:
+    def __init__(self):
+        self.edges = get_edges()
+        self.id2name, self.name2id = get_dict()
+        self.idedges = []
+        for k, v in self.edges:
+            self.idedges.append((self.name2id[k], self.name2id[v]))
 
-    id2name, name2id = get_dict()
-    idedges = []
-    for k, v in edges:
-        idedges.append((name2id[k], name2id[v]))
+        self.graph = pgl.Graph(paddle.to_tensor(self.idedges), num_nodes=len(self.id2name))
 
-    # features
-    gen = gen_info.static_and_obs(obs)
-    branch = branch_info.static_and_obs(obs)
-    bus = bus_info.static_and_obs(obs)
-    load = load_info.static_and_obs(obs)
+    def get_features(self, obs):
+        # features
+        gen = gen_info.static_and_obs(obs)
+        branch = branch_info.static_and_obs(obs)
+        bus = bus_info.static_and_obs(obs)
+        load = load_info.static_and_obs(obs)
 
-    fe_arr = []
-    for name in id2name.values():
-        if name.startswith('bus-'):
-            fe = get_features(bus, name)
-        elif name.startswith('branch'):
-            fe = get_branch_features(branch, name)
-        elif name.startswith('bus.'):
-            if name.endswith('.gen'):
-                fe = get_features(gen, name)
-            elif name.endswith('.ld'):
-                fe = get_features(load, name)
-        fe = feature_padding(fe)
+        fe_arr = []
+        for name in self.id2name.values():
+            if name.startswith('bus-'):
+                fe = get_features(bus, name)
+            elif name.startswith('branch'):
+                fe = get_branch_features(branch, name)
+            elif name.startswith('bus.'):
+                if name.endswith('.gen'):
+                    fe = get_features(gen, name)
+                elif name.endswith('.ld'):
+                    fe = get_features(load, name)
+            fe = feature_padding(fe)
 
-        fe_arr.append(fe)
+            fe_arr.append(fe)
 
-    fe_arr = np.array(fe_arr)
-    graph = pgl.Graph(idedges, num_nodes=len(id2name), node_feat=fe_arr)
-
-    return graph
+        fe_arr = np.array(fe_arr)
+        return fe_arr
