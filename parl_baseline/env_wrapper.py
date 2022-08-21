@@ -103,6 +103,7 @@ class RewardShapingWrapper(gym.Wrapper):
         return self.env.reset(**kwargs)
 
 
+
 class ActionWrapper(gym.Wrapper):
     def __init__(self, env, raw_env):
         logger.info("[env type]:{}".format(type(env)))
@@ -113,23 +114,29 @@ class ActionWrapper(gym.Wrapper):
         self.store_action = np.zeros(5)
 
     def step(self, action, **kwargs):
-        N = len(action)
+        p_action,v_action,ld_p_action,store_action = split_action(action)
 
-        gen_p_action_space = self.env.raw_obs.action_space['adjust_gen_p']
+        p_action = self.post_process(p_action, 'adjust_gen_p', True)
+        v_action = self.post_process(v_action, 'adjust_gen_v', True)
+        ld_p_action = self.post_process(ld_p_action, 'adjust_adjld_p')
+        store_action = self.post_process(store_action, 'adjust_stoenergy_p')
+        ret_action = form_action(p_action, v_action, ld_p_action, store_action)
+        return self.env.step(ret_action, **kwargs)
+
+    def reset(self, **kwargs):
+        return self.env.reset(**kwargs)
+    def post_process(self,action, k, is_gen=False):
+        gen_p_action_space = self.env.raw_obs.action_space[k]
 
         low_bound = gen_p_action_space.low
         high_bound = gen_p_action_space.high
 
         mapped_action = low_bound + (action - (-1.0)) * (
                 (high_bound - low_bound) / 2.0)
-        mapped_action[self.raw_env.settings.balanced_id] = 0.0
+        if is_gen:
+            mapped_action[self.raw_env.settings.balanced_id] = 0.0
         mapped_action = np.clip(mapped_action, low_bound, high_bound)
-
-        ret_action = form_action(mapped_action, self.v_action, self.ld_p_action, self.store_action)
-        return self.env.step(ret_action, **kwargs)
-
-    def reset(self, **kwargs):
-        return self.env.reset(**kwargs)
+        return mapped_action
 
 
 def get_env():

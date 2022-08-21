@@ -44,13 +44,10 @@ class Agent(BaseAgent):
         self.agent = GridAgent(algorithm)
         self.agent.restore(f"{this_directory_path}/model")
 
-        self.v_action = np.zeros(self.settings.gen_num)
-        self.ld_p_action = np.zeros(10)
-        self.store_action = np.zeros(5)
-
     def act(self, raw_obs, reward=0.0, done=False):
         obs = self._get_obs(raw_obs)
-        adjust_gen_p = self.agent.predict(obs)
+        action = self.agent.predict(obs)
+        adjust_gen_p,v_action,ld_p_action,store_action = split_action(action)
 
         gen_p_action_space = raw_obs.action_space['adjust_gen_p']
 
@@ -62,7 +59,7 @@ class Agent(BaseAgent):
         mapped_action[self.settings.balanced_id] = 0.0
         mapped_action = np.clip(mapped_action, low_bound, high_bound)
 
-        return form_action(mapped_action, self.v_action, self.ld_p_action, self.store_action)
+        return form_action(mapped_action, v_action, ld_p_action, store_action)
 
     def _get_obs(self, obs):
         # loads
@@ -105,3 +102,12 @@ def form_action(adjust_gen_p, adjust_gen_v, adjust_adjld_p, adjust_stoenergy_p):
         'adjust_adjld_p': adjust_adjld_p,
         'adjust_stoenergy_p': adjust_stoenergy_p
     }
+
+def split_action(action):
+    p_action = action[:54]
+    v_action = action[54:108]
+    ld_p_action = action[108:118]
+    store_action = action[108:]
+
+    return p_action,v_action,ld_p_action,store_action
+

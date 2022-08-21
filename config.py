@@ -41,15 +41,15 @@ empty_feature_dict = {
 }
 
 
-WARMUP_STEPS = 300
+WARMUP_STEPS = 1e4
 MEMORY_SIZE = int(1e6)
-BATCH_SIZE = 256
+BATCH_SIZE = 8192
 GAMMA = 0.99
 TAU = 0.005
 ACTOR_LR = 3e-4
 CRITIC_LR = 3e-4
 OBS_DIM = 819
-ACT_DIM = 54
+ACT_DIM = 123
 NODE_NUM = 659
 NODE_FEA_LEN = len(empty_feature_dict)
 

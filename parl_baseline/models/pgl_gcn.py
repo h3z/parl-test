@@ -40,13 +40,18 @@ class Actor(parl.Model):
         self.gcn = GCNConv(gcn_in, gen_out, norm=False)
         self.mean_linear = nn.Linear(NODE_NUM*gen_out, action_dim)
         self.std_linear = nn.Linear(NODE_NUM*gen_out, action_dim)
-        self.graph = pgl.Graph.batch([Graph().graph]*BATCH_SIZE)
+        graph = Graph().graph
+        self.graph = graph
+        self.graph_batch = pgl.Graph.batch([graph]*BATCH_SIZE)
 
 
     def forward(self, obs):
         # features = self.graph.get_features(obs)
         features = paddle.reshape(obs, (-1, NODE_FEA_LEN))
-        x = self.gcn(self.graph, features)
+        if obs.shape[0] == 1:
+            x = self.gcn(self.graph, features)
+        else:
+            x = self.gcn(self.graph_batch, features)
         x = paddle.reshape(x, (obs.shape[0], -1))
 
         act_mean = self.mean_linear(x)
